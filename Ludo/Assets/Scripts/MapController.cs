@@ -36,8 +36,21 @@ public class MapController : MonoBehaviour
 
     }
 
-    public Vector3 GetBluePlayerStartingPoint()
+    public Vector3 GetPlayerStartingPoint(Pawn.PawnColor color)
     {
-        return commanSteps[0].position;
+        if (color == Pawn.PawnColor.Blue)
+            return commanSteps[0].position;
+        else if (color == Pawn.PawnColor.Red)
+            return commanSteps[13].position;
+        else if (color == Pawn.PawnColor.Green)
+            return commanSteps[26].position;
+        else if (color == Pawn.PawnColor.Yellow)
+            return commanSteps[39].position;
+
+        return new Vector3(0, 0, 0);
+    }
+    public Vector3 GetPlayerDestinationPoint(int destinationStep)
+    {
+        return commanSteps[destinationStep].position;
     }
 }

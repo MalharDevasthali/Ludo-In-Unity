@@ -22,17 +22,13 @@ public class Pawn : MonoBehaviour
     public State currentState;
 
     private int steps;
+    private int commanStepNumber;
 
     void Start()
     {
         currentState = State.inHouse;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     private void OnMouseDown()
     {
         if (GameService.instance.currentTurn == GameService.Turn.blueTurn)
@@ -42,15 +38,59 @@ public class Pawn : MonoBehaviour
     }
     private void MovePawn()
     {
-        if (currentState == State.inHouse)
+        if (GameService.instance.isPlayingMove)
         {
-            if (Dice.instance.GetCurrentDiceNumber() == 6)
+            if (currentState == State.inHouse)
             {
-                transform.position = MapController.instance.GetBluePlayerStartingPoint();
-                transform.localScale = (Vector2)transform.localScale - new Vector2(0.05f, 0.05f);
-                GameService.instance.SetCurrentTurn();
+                InHouse();
             }
+            else if (currentState == State.onBoard)
+            {
+                OnBoard();
+            }
+            GameService.instance.isPlayingMove = false;
         }
-        GameService.instance.isPlayingMove = false;
+    }
+
+    private void OnBoard()
+    {
+        commanStepNumber += Dice.instance.GetCurrentDiceNumber();
+        steps += Dice.instance.GetCurrentDiceNumber();
+        transform.position = MapController.instance.GetPlayerDestinationPoint(commanStepNumber);
+    }
+
+    private void InHouse()
+    {
+
+        if (Dice.instance.GetCurrentDiceNumber() == 6)
+        {
+            transform.position = MapController.instance.GetPlayerStartingPoint(color);
+            transform.localScale = (Vector2)transform.localScale - new Vector2(0.05f, 0.05f);
+            currentState = State.onBoard;
+            steps = 0;
+            //GameService.instance.SetCurrentTurn();
+            SetCommanStepNumber();
+        }
+
+    }
+
+    private void SetCommanStepNumber()
+    {
+        if (color == PawnColor.Blue)
+        {
+            commanStepNumber = 0;
+        }
+        else if (color == PawnColor.Red)
+        {
+            commanStepNumber = 13;
+        }
+        else if (color == PawnColor.Green)
+        {
+            commanStepNumber = 26;
+        }
+        else if (color == PawnColor.Yellow)
+        {
+            commanStepNumber = 39;
+        }
     }
 }
