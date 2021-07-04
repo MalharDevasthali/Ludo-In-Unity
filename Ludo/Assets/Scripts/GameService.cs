@@ -11,14 +11,13 @@ public class GameService : MonoBehaviour
 
     public enum Turn
     {
-        None,
         blueTurn,
         redTurn,
         greenTurn,
         yellowTurn
     }
     public Turn currentTurn;
-
+    [SerializeField] private Color[] colors; //0-> Blue , 1->red , 2 -> Green , 3->Yellow
 
     private void Awake()
     {
@@ -35,33 +34,31 @@ public class GameService : MonoBehaviour
     {
         switch (currentTurn)
         {
-            case Turn.None:
-                {
-                    currentTurn = Turn.blueTurn;
-                    Debug.Log(currentTurn);
-                    break;
-                }
             case Turn.blueTurn:
                 {
                     currentTurn = Turn.redTurn;
+                    Dice.instance.UpdateDiceColor(colors[1]);
                     Debug.Log(currentTurn);
                     break;
                 }
             case Turn.redTurn:
                 {
                     currentTurn = Turn.greenTurn;
+                    Dice.instance.UpdateDiceColor(colors[2]);
                     Debug.Log(currentTurn);
                     break;
                 }
             case Turn.greenTurn:
                 {
                     currentTurn = Turn.yellowTurn;
+                    Dice.instance.UpdateDiceColor(colors[3]);
                     Debug.Log(currentTurn);
                     break;
                 }
             case Turn.yellowTurn:
                 {
                     currentTurn = Turn.blueTurn;
+                    Dice.instance.UpdateDiceColor(colors[0]);
                     Debug.Log(currentTurn);
                     break;
                 }

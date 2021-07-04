@@ -58,7 +58,7 @@ public class MapController : MonoBehaviour
         List<Vector3> positions = new List<Vector3>();
         for (int i = 1; i <= diceNumber; i++)
         {
-            positions.Add(commanSteps[currentStep + i].position);
+            positions.Add(commanSteps[(currentStep + i) % 52].position);
         }
         //  return commanSteps[destinationStep].position;
         return positions;

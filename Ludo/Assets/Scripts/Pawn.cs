@@ -33,11 +33,20 @@ public class Pawn : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (GameService.instance.currentTurn == GameService.Turn.blueTurn)
+        if (CanPlayMove())
         {
             MovePawn();
         }
     }
+
+    private bool CanPlayMove()
+    {
+        return (GameService.instance.currentTurn == GameService.Turn.blueTurn && color == PawnColor.Blue)
+                    || (GameService.instance.currentTurn == GameService.Turn.redTurn && color == PawnColor.Red)
+                    || (GameService.instance.currentTurn == GameService.Turn.greenTurn && color == PawnColor.Green)
+                    || (GameService.instance.currentTurn == GameService.Turn.yellowTurn && color == PawnColor.Yellow);
+    }
+
     private void MovePawn()
     {
         if (GameService.instance.isPlayingMove)
@@ -50,12 +59,14 @@ public class Pawn : MonoBehaviour
             {
                 OnBoard();
             }
-            GameService.instance.isPlayingMove = false;
+
         }
     }
 
     private async void OnBoard()
     {
+        GameService.instance.isPlayingMove = false;
+
         List<Vector3> positions = MapController.instance.GetPlayerDestinationPoint(commanStepNumber, Dice.instance.GetCurrentDiceNumber());
 
         for (int i = 0; i < Dice.instance.GetCurrentDiceNumber(); i++)
@@ -64,11 +75,9 @@ public class Pawn : MonoBehaviour
             Tween tween = transform.DOJump(positions[i], 0.5f, 1, 0.5f);
             await Task.Delay(500);
         }
-        commanStepNumber += Dice.instance.GetCurrentDiceNumber();
+        commanStepNumber = (commanStepNumber + Dice.instance.GetCurrentDiceNumber()) % 52;
         steps += Dice.instance.GetCurrentDiceNumber();
-
-
-
+        GameService.instance.SetCurrentTurn();
     }
 
     private void InHouse()
@@ -76,12 +85,14 @@ public class Pawn : MonoBehaviour
 
         if (Dice.instance.GetCurrentDiceNumber() == 6)
         {
+            GameService.instance.isPlayingMove = false;
             transform.position = MapController.instance.GetPlayerStartingPoint(color);
             transform.localScale = (Vector2)transform.localScale - new Vector2(0.05f, 0.05f);
             currentState = State.onBoard;
             steps = 0;
-            //GameService.instance.SetCurrentTurn();
+            GameService.instance.SetCurrentTurn();
             SetCommanStepNumber();
+
         }
 
     }

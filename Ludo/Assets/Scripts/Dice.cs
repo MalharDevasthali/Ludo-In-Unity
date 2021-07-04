@@ -10,6 +10,11 @@ public class Dice : MonoBehaviour
 
     public static Dice instance;
     [SerializeField] private Sprite[] diceImages;
+    [SerializeField] private BlueHouse blueHouse;
+    [SerializeField] private RedHouse redHouse;
+    [SerializeField] private GreenHouse greenHouse;
+    [SerializeField] private YellowHouse yellowHouse;
+
     public bool isTesting;
     public int DiceNumber;
     private Image diceButtonImage;
@@ -51,13 +56,24 @@ public class Dice : MonoBehaviour
             diceButtonImage.sprite = diceImages[currentDiceNumber - 1];
         }
 
-        if (GameService.instance.currentTurn == GameService.Turn.None)
+
+        if (isCurrentHouseFull() && currentDiceNumber != 6)
         {
-            GameService.instance.SetCurrentTurn(GameService.Turn.blueTurn); //TODO(Randmize This)
+            GameService.instance.SetCurrentTurn();
+            return;
         }
+
         GameService.instance.isPlayingMove = true;
         Debug.Log("Dice Rolling");
 
+    }
+
+    private bool isCurrentHouseFull()
+    {
+        return GameService.instance.currentTurn == GameService.Turn.blueTurn && blueHouse.isHouseFull()
+                    || GameService.instance.currentTurn == GameService.Turn.redTurn && redHouse.isHouseFull()
+                   || GameService.instance.currentTurn == GameService.Turn.greenTurn && greenHouse.isHouseFull()
+                   || GameService.instance.currentTurn == GameService.Turn.yellowTurn && yellowHouse.isHouseFull();
     }
 
     private async Task<int> RollingAnimationEffect()
@@ -90,5 +106,9 @@ public class Dice : MonoBehaviour
     public int GetCurrentDiceNumber()
     {
         return currentDiceNumber;
+    }
+    public void UpdateDiceColor(Color color)
+    {
+        diceButtonImage.color = color;
     }
 }
