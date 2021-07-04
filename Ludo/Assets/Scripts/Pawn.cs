@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
+using DG.Tweening;
 
 public class Pawn : MonoBehaviour
 {
@@ -52,11 +54,21 @@ public class Pawn : MonoBehaviour
         }
     }
 
-    private void OnBoard()
+    private async void OnBoard()
     {
+        List<Vector3> positions = MapController.instance.GetPlayerDestinationPoint(commanStepNumber, Dice.instance.GetCurrentDiceNumber());
+
+        for (int i = 0; i < Dice.instance.GetCurrentDiceNumber(); i++)
+        {
+            Debug.Log(positions[i]);
+            Tween tween = transform.DOJump(positions[i], 0.5f, 1, 0.5f);
+            await Task.Delay(500);
+        }
         commanStepNumber += Dice.instance.GetCurrentDiceNumber();
         steps += Dice.instance.GetCurrentDiceNumber();
-        transform.position = MapController.instance.GetPlayerDestinationPoint(commanStepNumber);
+
+
+
     }
 
     private void InHouse()

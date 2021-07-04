@@ -53,4 +53,14 @@ public class MapController : MonoBehaviour
     {
         return commanSteps[destinationStep].position;
     }
+    public List<Vector3> GetPlayerDestinationPoint(int currentStep, int diceNumber)
+    {
+        List<Vector3> positions = new List<Vector3>();
+        for (int i = 1; i <= diceNumber; i++)
+        {
+            positions.Add(commanSteps[currentStep + i].position);
+        }
+        //  return commanSteps[destinationStep].position;
+        return positions;
+    }
 }
