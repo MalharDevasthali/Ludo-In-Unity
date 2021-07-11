@@ -71,7 +71,6 @@ public class Pawn : MonoBehaviour
 
         for (int i = 0; i < Dice.instance.GetCurrentDiceNumber(); i++)
         {
-            Debug.Log(positions[i]);
             Tween tween = transform.DOJump(positions[i], 0.5f, 1, 0.5f);
             await Task.Delay(500);
         }

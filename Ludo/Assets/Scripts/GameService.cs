@@ -6,6 +6,10 @@ public class GameService : MonoBehaviour
 {
 
     public static GameService instance;
+    public BlueHouse blueHouse;
+    public RedHouse redHouse;
+    public GreenHouse greenHouse;
+    public YellowHouse yellowHouse;
     public bool isPlayingMove;
 
 
@@ -17,7 +21,6 @@ public class GameService : MonoBehaviour
         yellowTurn
     }
     public Turn currentTurn;
-    [SerializeField] private Color[] colors; //0-> Blue , 1->red , 2 -> Green , 3->Yellow
 
     private void Awake()
     {
@@ -37,36 +40,31 @@ public class GameService : MonoBehaviour
             case Turn.blueTurn:
                 {
                     currentTurn = Turn.redTurn;
-                    Dice.instance.UpdateDiceColor(colors[1]);
+                    Dice.instance.UpdateDiceColor(currentTurn);
                     Debug.Log(currentTurn);
                     break;
                 }
             case Turn.redTurn:
                 {
                     currentTurn = Turn.greenTurn;
-                    Dice.instance.UpdateDiceColor(colors[2]);
+                    Dice.instance.UpdateDiceColor(currentTurn);
                     Debug.Log(currentTurn);
                     break;
                 }
             case Turn.greenTurn:
                 {
                     currentTurn = Turn.yellowTurn;
-                    Dice.instance.UpdateDiceColor(colors[3]);
+                    Dice.instance.UpdateDiceColor(currentTurn);
                     Debug.Log(currentTurn);
                     break;
                 }
             case Turn.yellowTurn:
                 {
                     currentTurn = Turn.blueTurn;
-                    Dice.instance.UpdateDiceColor(colors[0]);
+                    Dice.instance.UpdateDiceColor(currentTurn);
                     Debug.Log(currentTurn);
                     break;
                 }
         }
-    }
-
-    public void SetCurrentTurn(Turn newTurn)
-    {
-        currentTurn = newTurn;
     }
 }

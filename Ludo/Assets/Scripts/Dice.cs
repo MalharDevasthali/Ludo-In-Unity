@@ -4,16 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Threading.Tasks;
+using System;
+using Random = UnityEngine.Random;
 
 public class Dice : MonoBehaviour
 {
 
     public static Dice instance;
     [SerializeField] private Sprite[] diceImages;
-    [SerializeField] private BlueHouse blueHouse;
-    [SerializeField] private RedHouse redHouse;
-    [SerializeField] private GreenHouse greenHouse;
-    [SerializeField] private YellowHouse yellowHouse;
+    [SerializeField] private Color[] colors; //0-> Blue , 1->red , 2 -> Green , 3->Yellow
 
     public bool isTesting;
     public int DiceNumber;
@@ -37,8 +36,22 @@ public class Dice : MonoBehaviour
     {
         diceButtonImage = GetComponent<Image>();
         animator = GetComponent<Animator>();
-        int rand = Random.Range(0, 6);
-        diceButtonImage.sprite = diceImages[rand];
+        RandomizeDiceAndTurn();
+
+    }
+
+    private void RandomizeDiceAndTurn()
+    {
+        //  int randDice = UnityEngine.Random.Range(0, 6);
+        int randTurn = UnityEngine.Random.Range(0, 4);
+        ///  diceButtonImage.sprite = diceImages[randDice];
+
+        Type type = typeof(GameService.Turn);
+        Array values = type.GetEnumValues();
+        int index = UnityEngine.Random.Range(0, values.Length);
+        GameService.instance.currentTurn = (GameService.Turn)values.GetValue(index);
+
+        UpdateDiceColor(GameService.instance.currentTurn);
     }
 
     public async void ShuffleDice()
@@ -70,10 +83,10 @@ public class Dice : MonoBehaviour
 
     private bool isCurrentHouseFull()
     {
-        return GameService.instance.currentTurn == GameService.Turn.blueTurn && blueHouse.isHouseFull()
-                    || GameService.instance.currentTurn == GameService.Turn.redTurn && redHouse.isHouseFull()
-                   || GameService.instance.currentTurn == GameService.Turn.greenTurn && greenHouse.isHouseFull()
-                   || GameService.instance.currentTurn == GameService.Turn.yellowTurn && yellowHouse.isHouseFull();
+        return GameService.instance.currentTurn == GameService.Turn.blueTurn && GameService.instance.blueHouse.isHouseFull()
+                    || GameService.instance.currentTurn == GameService.Turn.redTurn && GameService.instance.redHouse.isHouseFull()
+                   || GameService.instance.currentTurn == GameService.Turn.greenTurn && GameService.instance.greenHouse.isHouseFull()
+                   || GameService.instance.currentTurn == GameService.Turn.yellowTurn && GameService.instance.yellowHouse.isHouseFull();
     }
 
     private async Task<int> RollingAnimationEffect()
@@ -107,8 +120,31 @@ public class Dice : MonoBehaviour
     {
         return currentDiceNumber;
     }
-    public void UpdateDiceColor(Color color)
+    public void UpdateDiceColor(GameService.Turn turn)
     {
-        diceButtonImage.color = color;
+        switch (turn)
+        {
+            case GameService.Turn.blueTurn:
+                {
+                    diceButtonImage.color = colors[0];
+                    break;
+                }
+            case GameService.Turn.redTurn:
+                {
+                    diceButtonImage.color = colors[1];
+                    break;
+                }
+            case GameService.Turn.greenTurn:
+                {
+
+                    diceButtonImage.color = colors[2];
+                    break;
+                }
+            case GameService.Turn.yellowTurn:
+                {
+                    diceButtonImage.color = colors[3];
+                    break;
+                }
+        }
     }
 }
