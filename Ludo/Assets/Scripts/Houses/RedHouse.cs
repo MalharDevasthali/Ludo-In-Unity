@@ -7,6 +7,7 @@ public class RedHouse : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField]
     private Pawn[] redPawns;
+    [SerializeField] private TempBlinked[] tempBlinkeds;
 
     public bool isHouseFull()
     {
@@ -20,5 +21,12 @@ public class RedHouse : MonoBehaviour
         }
         return true;
     }
-
+    public void PlayMovePlayingAnimation()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            Debug.Log("Blink1");
+            tempBlinkeds[i].Blink();
+        }
+    }
 }

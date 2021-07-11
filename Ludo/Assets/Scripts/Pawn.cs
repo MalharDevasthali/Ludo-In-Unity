@@ -22,13 +22,26 @@ public class Pawn : MonoBehaviour
     }
     public PawnColor color;
     public State currentState;
+    private SpriteRenderer spriteRenderer;
+    [SerializeField] private Color animColor;
+
 
     private int steps;
     private int commanStepNumber;
 
     void Start()
     {
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
         currentState = State.inHouse;
+        //  spriteRenderer.material.DOColor(animColor, 0.4f).SetLoops(-1, LoopType.Yoyo);
+    }
+
+    public void PlayPlayerPlayingAnimation()
+    {
+        Debug.Log("PlayPlayerPlayingAnimation");
+        // spriteRenderer.material.DOColor(animColor, 0.4f).SetLoops(-1, LoopType.Yoyo);
+        //   spriteRenderer.material.color = animColor;
     }
 
     private void OnMouseDown()
@@ -71,12 +84,12 @@ public class Pawn : MonoBehaviour
 
         for (int i = 0; i < Dice.instance.GetCurrentDiceNumber(); i++)
         {
-            Tween tween = transform.DOJump(positions[i], 0.5f, 1, 0.5f);
+            transform.DOJump(positions[i], 0.5f, 1, 0.5f);
             await Task.Delay(500);
         }
         commanStepNumber = (commanStepNumber + Dice.instance.GetCurrentDiceNumber()) % 52;
         steps += Dice.instance.GetCurrentDiceNumber();
-        GameService.instance.SetCurrentTurn();
+        GameService.instance.SetNextTurn();
     }
 
     private void InHouse()
@@ -89,9 +102,8 @@ public class Pawn : MonoBehaviour
             transform.localScale = (Vector2)transform.localScale - new Vector2(0.05f, 0.05f);
             currentState = State.onBoard;
             steps = 0;
-            GameService.instance.SetCurrentTurn();
+            GameService.instance.SetNextTurn();
             SetCommanStepNumber();
-
         }
 
     }

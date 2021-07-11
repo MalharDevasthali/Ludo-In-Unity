@@ -33,7 +33,7 @@ public class GameService : MonoBehaviour
             instance = this;
         }
     }
-    public void SetCurrentTurn()
+    public void SetNextTurn()
     {
         switch (currentTurn)
         {
@@ -63,6 +63,34 @@ public class GameService : MonoBehaviour
                     currentTurn = Turn.blueTurn;
                     Dice.instance.UpdateDiceColor(currentTurn);
                     Debug.Log(currentTurn);
+                    break;
+                }
+        }
+    }
+    public void PlayerPlayingMove()
+    {
+        GameService.instance.isPlayingMove = true;
+        Debug.Log("PlayerPlayingMove");
+        switch (currentTurn)
+        {
+            case Turn.blueTurn:
+                {
+                    blueHouse.PlayMovePlayingAnimation();
+                    break;
+                }
+            case Turn.redTurn:
+                {
+                    redHouse.PlayMovePlayingAnimation();
+                    break;
+                }
+            case Turn.greenTurn:
+                {
+                    greenHouse.PlayMovePlayingAnimation();
+                    break;
+                }
+            case Turn.yellowTurn:
+                {
+                    yellowHouse.PlayMovePlayingAnimation();
                     break;
                 }
         }

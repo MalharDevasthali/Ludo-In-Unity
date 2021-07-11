@@ -42,9 +42,7 @@ public class Dice : MonoBehaviour
 
     private void RandomizeDiceAndTurn()
     {
-        //  int randDice = UnityEngine.Random.Range(0, 6);
         int randTurn = UnityEngine.Random.Range(0, 4);
-        ///  diceButtonImage.sprite = diceImages[randDice];
 
         Type type = typeof(GameService.Turn);
         Array values = type.GetEnumValues();
@@ -72,11 +70,10 @@ public class Dice : MonoBehaviour
 
         if (isCurrentHouseFull() && currentDiceNumber != 6)
         {
-            GameService.instance.SetCurrentTurn();
+            GameService.instance.SetNextTurn();
             return;
         }
-
-        GameService.instance.isPlayingMove = true;
+        GameService.instance.PlayerPlayingMove();
         Debug.Log("Dice Rolling");
 
     }
