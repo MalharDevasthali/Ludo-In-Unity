@@ -24,24 +24,34 @@ public class Pawn : MonoBehaviour
     public State currentState;
     private SpriteRenderer spriteRenderer;
     [SerializeField] private Color animColor;
+    private Color initialColor;
 
 
     private int steps;
     private int commanStepNumber;
+    private Tween blinkingTween = null;
 
     void Start()
     {
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         currentState = State.inHouse;
+        initialColor = spriteRenderer.color;
         //  spriteRenderer.material.DOColor(animColor, 0.4f).SetLoops(-1, LoopType.Yoyo);
     }
 
-    public void PlayPlayerPlayingAnimation()
+    public void StartBlinking()
     {
-        Debug.Log("PlayPlayerPlayingAnimation");
-        // spriteRenderer.material.DOColor(animColor, 0.4f).SetLoops(-1, LoopType.Yoyo);
-        //   spriteRenderer.material.color = animColor;
+        Debug.Log("StartBlinking");
+        if (blinkingTween == null)
+            blinkingTween = spriteRenderer.DOColor(animColor, 0.4f).SetLoops(-1, LoopType.Yoyo);
+    }
+    public void StopBlinking()
+    {
+        Debug.Log("StopBlinking");
+        spriteRenderer.color = initialColor;
+        blinkingTween.Kill();
+        blinkingTween = null;
     }
 
     private void OnMouseDown()
@@ -82,6 +92,7 @@ public class Pawn : MonoBehaviour
 
         List<Vector3> positions = MapController.instance.GetPlayerDestinationPoint(commanStepNumber, Dice.instance.GetCurrentDiceNumber());
 
+        StopBlinkingAnimationForAllPawns();
         for (int i = 0; i < Dice.instance.GetCurrentDiceNumber(); i++)
         {
             transform.DOJump(positions[i], 0.5f, 1, 0.5f);
@@ -89,7 +100,9 @@ public class Pawn : MonoBehaviour
         }
         commanStepNumber = (commanStepNumber + Dice.instance.GetCurrentDiceNumber()) % 52;
         steps += Dice.instance.GetCurrentDiceNumber();
-        GameService.instance.SetNextTurn();
+
+        if (Dice.instance.GetCurrentDiceNumber() != 6)
+            GameService.instance.SetNextTurn();
     }
 
     private void InHouse()
@@ -102,10 +115,36 @@ public class Pawn : MonoBehaviour
             transform.localScale = (Vector2)transform.localScale - new Vector2(0.05f, 0.05f);
             currentState = State.onBoard;
             steps = 0;
-            GameService.instance.SetNextTurn();
+            StopBlinkingAnimationForAllPawns();
             SetCommanStepNumber();
         }
 
+    }
+    private void StopBlinkingAnimationForAllPawns()
+    {
+        switch (color)
+        {
+            case PawnColor.Blue:
+                {
+                    GameService.instance.GetBlueHouse().StopMovePlayingAnimation();
+                }
+                break;
+            case PawnColor.Red:
+                {
+                    GameService.instance.GetRedHouse().StopMovePlayingAnimation();
+                }
+                break;
+            case PawnColor.Green:
+                {
+                    GameService.instance.GetGreenHouse().StopMovePlayingAnimation();
+                }
+                break;
+            case PawnColor.Yellow:
+                {
+                    GameService.instance.GetYellowHouse().StopMovePlayingAnimation();
+                }
+                break;
+        }
     }
 
     private void SetCommanStepNumber()

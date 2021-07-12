@@ -73,6 +73,7 @@ public class Dice : MonoBehaviour
             GameService.instance.SetNextTurn();
             return;
         }
+        GameService.instance.isPlayingMove = true;
         GameService.instance.PlayerPlayingMove();
         Debug.Log("Dice Rolling");
 

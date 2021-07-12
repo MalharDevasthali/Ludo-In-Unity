@@ -53,6 +53,7 @@ public class GameService : MonoBehaviour
                 }
             case Turn.greenTurn:
                 {
+
                     currentTurn = Turn.yellowTurn;
                     Dice.instance.UpdateDiceColor(currentTurn);
                     Debug.Log(currentTurn);
@@ -60,6 +61,7 @@ public class GameService : MonoBehaviour
                 }
             case Turn.yellowTurn:
                 {
+
                     currentTurn = Turn.blueTurn;
                     Dice.instance.UpdateDiceColor(currentTurn);
                     Debug.Log(currentTurn);
@@ -69,7 +71,7 @@ public class GameService : MonoBehaviour
     }
     public void PlayerPlayingMove()
     {
-        GameService.instance.isPlayingMove = true;
+
         Debug.Log("PlayerPlayingMove");
         switch (currentTurn)
         {
@@ -94,5 +96,21 @@ public class GameService : MonoBehaviour
                     break;
                 }
         }
+    }
+    public BlueHouse GetBlueHouse()
+    {
+        return blueHouse;
+    }
+    public RedHouse GetRedHouse()
+    {
+        return redHouse;
+    }
+    public GreenHouse GetGreenHouse()
+    {
+        return greenHouse;
+    }
+    public YellowHouse GetYellowHouse()
+    {
+        return yellowHouse;
     }
 }

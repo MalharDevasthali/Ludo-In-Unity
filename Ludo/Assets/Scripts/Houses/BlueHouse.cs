@@ -7,7 +7,6 @@ public class BlueHouse : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField]
     private Pawn[] bluePawns;
-    [SerializeField] private TempBlinked[] tempBlinkeds;
 
     public bool isHouseFull()
     {
@@ -24,10 +23,17 @@ public class BlueHouse : MonoBehaviour
 
     public void PlayMovePlayingAnimation()
     {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < bluePawns.Length; i++)
         {
-            Debug.Log("Blink1");
-            tempBlinkeds[i].Blink();
+            if (bluePawns[i].currentState == Pawn.State.onBoard || Dice.instance.GetCurrentDiceNumber() == 6)
+                bluePawns[i].StartBlinking();
+        }
+    }
+    public void StopMovePlayingAnimation()
+    {
+        for (int i = 0; i < bluePawns.Length; i++)
+        {
+            bluePawns[i].StopBlinking();
         }
     }
 

@@ -10,19 +10,11 @@ public class TempBlinked : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-
     }
 
     public void Blink()
     {
         Debug.Log("Blink");
         spriteRenderer.DOColor(animColor, 0.4f).SetLoops(-1, LoopType.Yoyo);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
