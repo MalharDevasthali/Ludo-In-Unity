@@ -36,5 +36,9 @@ public class BlueHouse : MonoBehaviour
             bluePawns[i].StopBlinking();
         }
     }
+    public void something()
+    {
+
+    }
 
 }
