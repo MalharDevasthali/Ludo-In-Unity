@@ -3504,11 +3504,6 @@ MonoBehaviour:
   - {fileID: 319338571098936464}
   - {fileID: 319338572566117009}
   - {fileID: 319338571399938322}
-  tempBlinkeds:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &4406324841544015802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4593,11 +4588,6 @@ MonoBehaviour:
   - {fileID: 4406324843068349125}
   - {fileID: 4406324842341421792}
   - {fileID: 4406324843347196666}
-  tempBlinkeds:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &6114769330756789030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4615,11 +4605,6 @@ MonoBehaviour:
   - {fileID: 4406324841544015802}
   - {fileID: 4406324842440201332}
   - {fileID: 4406324843034680374}
-  tempBlinkeds:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!61 &6733097527428831921
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4741,11 +4726,6 @@ MonoBehaviour:
   - {fileID: 4406324842760261200}
   - {fileID: 4406324841888057504}
   - {fileID: 4406324843400693167}
-  tempBlinkeds:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!61 &7221567232816465936
 BoxCollider2D:
   m_ObjectHideFlags: 0

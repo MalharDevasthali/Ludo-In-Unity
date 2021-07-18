@@ -10,6 +10,7 @@ public class MapController : MonoBehaviour
     [SerializeField] private Transform[] redSteps;
     [SerializeField] private Transform[] greenSteps;
     [SerializeField] private Transform[] yellowSteps;
+    private int[] safeSpots = { 0, 8, 13, 21, 26, 34, 39, 47 };
 
     public static MapController instance;
 
@@ -24,18 +25,6 @@ public class MapController : MonoBehaviour
             instance = this;
         }
     }
-
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public Vector3 GetPlayerStartingPoint(Pawn.PawnColor color)
     {
         if (color == Pawn.PawnColor.Blue)
@@ -49,10 +38,6 @@ public class MapController : MonoBehaviour
 
         return new Vector3(0, 0, 0);
     }
-    public Vector3 GetPlayerDestinationPoint(int destinationStep)
-    {
-        return commanSteps[destinationStep].position;
-    }
     public List<Vector3> GetPlayerDestinationPoint(int currentStep, int diceNumber)
     {
         List<Vector3> positions = new List<Vector3>();
@@ -60,7 +45,20 @@ public class MapController : MonoBehaviour
         {
             positions.Add(commanSteps[(currentStep + i) % 52].position);
         }
-        //  return commanSteps[destinationStep].position;
         return positions;
     }
+
+    public bool IsDestinationSafeSpot(int currentStep)
+    {
+        for (int i = 0; i < safeSpots.Length; i++)
+        {
+            if (safeSpots[i] == currentStep)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

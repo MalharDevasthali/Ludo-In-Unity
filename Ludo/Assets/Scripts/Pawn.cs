@@ -29,6 +29,7 @@ public class Pawn : MonoBehaviour
 
     private int steps;
     private int commanStepNumber;
+    private int conjuctedPawnCount = 1; //this count indicates the total number of pawns are on the same sqaure
     private Tween blinkingTween = null;
 
     void Start()
@@ -39,6 +40,8 @@ public class Pawn : MonoBehaviour
         initialColor = spriteRenderer.color;
         //  spriteRenderer.material.DOColor(animColor, 0.4f).SetLoops(-1, LoopType.Yoyo);
     }
+
+    #region Public Methods
 
     public void StartBlinking()
     {
@@ -53,6 +56,21 @@ public class Pawn : MonoBehaviour
         blinkingTween.Kill();
         blinkingTween = null;
     }
+
+    public void SetScaleAsPerConjuctedPawns()
+    {
+        if (conjuctedPawnCount > 1 && conjuctedPawnCount <= 4)
+        {
+
+            transform.localScale = new Vector2(transform.localScale.x - 0.05f, transform.localScale.y - 0.05f);
+        }
+        else if (conjuctedPawnCount > 4)
+        {
+
+            transform.localScale = new Vector2(transform.localScale.x - 0.1f, transform.localScale.y - 0.1f);
+        }
+    }
+    #endregion
 
     private void OnMouseDown()
     {
@@ -82,11 +100,19 @@ public class Pawn : MonoBehaviour
             {
                 OnBoard();
             }
-
         }
     }
 
     private async void OnBoard()
+    {
+        await PawnMovement();
+        
+
+        if (Dice.instance.GetCurrentDiceNumber() != 6)
+            GameService.instance.SetNextTurn();
+    }
+
+    private async Task PawnMovement()
     {
         GameService.instance.isPlayingMove = false;
 
@@ -100,9 +126,6 @@ public class Pawn : MonoBehaviour
         }
         commanStepNumber = (commanStepNumber + Dice.instance.GetCurrentDiceNumber()) % 52;
         steps += Dice.instance.GetCurrentDiceNumber();
-
-        if (Dice.instance.GetCurrentDiceNumber() != 6)
-            GameService.instance.SetNextTurn();
     }
 
     private void InHouse()
