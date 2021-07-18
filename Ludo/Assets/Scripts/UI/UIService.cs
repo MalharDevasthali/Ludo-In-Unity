@@ -8,4 +8,9 @@ public class UIService : MonoBehaviour
 
     [SerializeField] Button startButton;
 
+    public void TestBranch1()
+    {
+        //Function created in Test Branch 1s
+    }
+
 }
