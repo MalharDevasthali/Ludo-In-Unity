@@ -36,8 +36,5 @@ public class GreenHouse : MonoBehaviour
             greenPawns[i].StopBlinking();
         }
     }
-    public void NewFunction()
-    {
 
-    }
 }
