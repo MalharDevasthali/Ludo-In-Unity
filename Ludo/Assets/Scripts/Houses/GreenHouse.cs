@@ -7,6 +7,7 @@ public class GreenHouse : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField]
     private Pawn[] greenPawns;
+    private GameObject test;
 
     public bool isHouseFull()
     {
